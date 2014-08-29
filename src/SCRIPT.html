@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>%TITLE%</title>
+<style type="text/css" media="screen">
+	#editor { 
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+	}
+</style>
+</head>
+<body>
+
+<div id="editor">%SCRIPT%</div>
+	
+<script src="ace/ace.js" type="text/javascript" charset="utf-8"></script>
+<script>
+
+	window.addEventListener('load', function () {
+
+		var editor_div = document.getElementById('editor');
+		var editor = ace.edit('editor');
+		var url = window.location.href;
+		var p = url.slice(url.indexOf('?') + 1).split('&');
+		var params = {};
+
+		for (var i = p.length; i--;) {
+			var a = p[i] = p[i].split('=');
+			params[a[0]] = a[1];
+		}
+
+		editor.setTheme('ace/theme/monokai');
+		editor.getSession().setMode('ace/mode/' + (params.l ? params.l : 'javascript'));
+		editor_div.style.fontSize = (params.s ? params.s : 20) + 'px';
+		editor.gotoLine(params.n ? params.n : 1);
+		editor.setReadOnly(true);
+	});
+
+</script>
+</body>
+</html>
